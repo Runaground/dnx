@@ -59,7 +59,6 @@ namespace Microsoft.Framework.PackageManager
 
         public static void MakeWritable(string filePath)
         {
-
             var attributes = File.GetAttributes(filePath);
             if (attributes.HasFlag(FileAttributes.ReadOnly))
             {
