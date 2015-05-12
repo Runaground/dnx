@@ -59,6 +59,17 @@ namespace Microsoft.Framework.PackageManager
 
         public void Write(string filePath, LockFile lockFile)
         {
+            // Make sure that if the lock file exists, it is not readonly
+            if (File.Exists(filePath))
+            {
+                FileAttributes attributes = File.GetAttributes(filePath);
+                if (attributes.HasFlag(FileAttributes.ReadOnly))
+                {
+                    attributes &= ~FileAttributes.ReadOnly;
+                    File.SetAttributes(filePath, attributes);
+                }
+            }
+
             using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None))
             {
                 Write(stream, lockFile);
