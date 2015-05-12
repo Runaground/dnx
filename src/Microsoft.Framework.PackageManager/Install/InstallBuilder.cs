@@ -87,12 +87,7 @@ namespace Microsoft.Framework.PackageManager
 
             // If the source file is readonly, the destination will be readonly too
             // so remove the readonly attribute
-            FileAttributes attributes = File.GetAttributes(appScriptProjectFile);
-            if (attributes.HasFlag(FileAttributes.ReadOnly))
-            {
-                attributes &= ~FileAttributes.ReadOnly;
-                File.SetAttributes(appScriptProjectFile, attributes);
-            }
+            FileOperationUtils.MakeWritable(appScriptProjectFile);
 
             Runtime.Project appProject;
             Runtime.Project.TryGetProject(appScriptProjectFile, out appProject);

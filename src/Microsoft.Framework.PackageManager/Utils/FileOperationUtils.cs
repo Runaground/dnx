@@ -56,5 +56,16 @@ namespace Microsoft.Framework.PackageManager
 
             return process.ExitCode == 0;
         }
+
+        public static void MakeWritable(string filePath)
+        {
+
+            var attributes = File.GetAttributes(filePath);
+            if (attributes.HasFlag(FileAttributes.ReadOnly))
+            {
+                attributes &= ~FileAttributes.ReadOnly;
+                File.SetAttributes(filePath, attributes);
+            }
+        }
     }
 }
